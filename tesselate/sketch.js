@@ -12,9 +12,9 @@ function setup() {
     angleMode(DEGREES)
 
     let i = 0
-    for (x = 0; x <= w + step; x += step) {
+    for (let x = 0; x <= w + step; x += step) {
         let j = 0
-        for (y = 0; y <= h + step; y += step) {
+        for (let y = 0; y <= h + step; y += step) {
             let a = new TesselArc(x, y, radius, 0, 270, j, i)
             arcs.push(a)
             j++
