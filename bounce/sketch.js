@@ -1,8 +1,8 @@
 const canvas_w = 512;
 const canvas_h = 512;
 
-const min_border = 30;
-const max_border = 180;
+const min_border = canvas_w * 0.05;
+const max_border = canvas_w * 0.35;
 let border = min_border;
 let delta_border = -0.5;
 
@@ -28,13 +28,13 @@ function setup() {
   for (let i = 0; i < nballs; i++) {
     const x = random(-box_w / 2 + 50, box_w / 2 - 50);
     const y = random(-box_h / 2 + 50, box_h / 4);
-    const r = random(10, 45);
+    const r = random(canvas_w * 0.02, canvas_w * 0.09);
     const ball = new BouncyBall(x, y, r);
 
     balls.push(ball);
   }
 
-  balls[0].fill = [70, 150, 150, 150];
+  balls[0].fill = [70, 140, 140, 180];
 }
 
 
