@@ -1,189 +1,188 @@
-let w = 640
-let h = 480
+const w = 640;
+const h = 480;
 
-let cx = w / 2
-let cy = h / 2
+const cx = w / 2;
+const cy = h / 2;
 
-let mouse_pressed = false
-let key_typed = false
-let is_dragging = false
-let translate_z = 0
+let mouse_pressed = false;
+const key_typed = false;
+let is_dragging = false;
+let translate_z = 0;
 
-let d
+let d;
 
-let n_points = 20
-let points = []
+const n_points = 20;
+const points = [];
 
-let angleX = 0
-let angleY = 0
+let angleX = 0;
+let angleY = 0;
 
 function setup() {
-	createCanvas(w, h, WEBGL)
-	angleMode(DEGREES)
-	addScreenPositionFunction()
+  createCanvas(w, h, WEBGL);
+  angleMode(DEGREES);
+  addScreenPositionFunction();
 
-	d = new DragNet(0, 0, 6, 6, 40)
+  d = new DragNet(0, 0, 6, 6, 40);
 
-	for (let i = 0; i < n_points; i++) {
-		let x = random(-150, 150)
-		let y = random(-150, 150)
-		let z = random(-150, 150)
-		points.push(createVector(x, y, z))
-	}
+  for (let i = 0; i < n_points; i++) {
+    const x = random(-150, 150);
+    const y = random(-150, 150);
+    const z = random(-150, 150);
+    points.push(createVector(x, y, z));
+  }
 }
 
 
 function draw() {
-	clear()
+  clear();
 
-	rotateX(angleX)
-	rotateY(angleY)
-	
-	for (let point of points) {
-		push()
-		translate(point)
-		fill(150, 0, 0)
-		noStroke(150, 0, 0)
-		sphere(10)
-		pop()
-	}
+  rotateX(angleX);
+  rotateY(angleY);
 
-	d.draw()
-	translate_z = 0
+  for (const point of points) {
+    push();
+    translate(point);
+    fill(150, 0, 0);
+    noStroke(150, 0, 0);
+    sphere(10);
+    pop();
+  }
+
+  d.draw();
+  translate_z = 0;
 }
 
 
 function keyPressed() {
   if (keyCode === LEFT_ARROW) {
-    angleY -= 20
+    angleY -= 20;
   } else if (keyCode === RIGHT_ARROW) {
-    angleY += 20
+    angleY += 20;
   } else if (keyCode === DOWN_ARROW) {
-    angleX -= 20
+    angleX -= 20;
   } else if (keyCode === UP_ARROW) {
-    angleX += 20
+    angleX += 20;
   } else if (keyCode === ESCAPE) {
-  	angleX = 0
-  	angleY = 0
+  	angleX = 0;
+  	angleY = 0;
   }
 }
 
 
 function keyTyped() {
-	if (key === '=') {
-		translate_z = 5
-	} else if (key === '-') {
-		translate_z -= 5
-	}
+  if (key === '=') {
+    translate_z = 5;
+  } else if (key === '-') {
+    translate_z -= 5;
+  }
 }
 
 
 function mousePressed() {
-	mouse_pressed = true
+  mouse_pressed = true;
 }
 
 
 function mouseReleased() {
-	mouse_pressed = false
+  mouse_pressed = false;
 }
 
 
 class DragNode {
-	constructor(x, y, radius) {
-		this.x = x
-		this.y = y
-		this.z = 0
-		this.r = radius
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.z = 0;
+    this.r = radius;
 
-		this.fill = [50, 50, 50]
-		this.hover_fill = [100, 100, 100]
-		this.hover_stroke = [3, 3, 3]
+    this.fill = [50, 50, 50];
+    this.hover_fill = [100, 100, 100];
+    this.hover_stroke = [3, 3, 3];
 
-		this.connected_nodes = []
-		this.being_dragged = false
-	}
+    this.connected_nodes = [];
+    this.being_dragged = false;
+  }
 
-	draw() {
-		push()
-		fill(this.fill)
-		noStroke()
+  draw() {
+    push();
+    fill(this.fill);
+    noStroke();
 
-		let mouse_rel = screenPosition(mouseX - width / 2, mouseY - height / 2, 0)
-		let mouse_x = mouse_rel.x
-		let mouse_y = mouse_rel.y
+    const mouse_rel = screenPosition(mouseX - width / 2, mouseY - height / 2, 0);
+    const mouse_x = mouse_rel.x;
+    const mouse_y = mouse_rel.y;
 
-		if (this.being_dragged | abs(this.x - mouse_x) <= this.r & abs(this.y - mouse_y) <= this.r) {
-			if (mouse_pressed & (!is_dragging | this.being_dragged)) {
-				fill(this.hover_fill)
-				stroke(this.hover_stroke)
+    if (this.being_dragged | abs(this.x - mouse_x) <= this.r & abs(this.y - mouse_y) <= this.r) {
+      if (mouse_pressed & (!is_dragging | this.being_dragged)) {
+        fill(this.hover_fill);
+        stroke(this.hover_stroke);
 
-				is_dragging = true
-				this.being_dragged = true
-				this.x = mouse_x
-				this.y = mouse_y
-				this.z += translate_z
-			} else if (this.being_dragged & !mouse_pressed) {
-				is_dragging = false
-				this.being_dragged = false
-			} else if (!is_dragging) {
-				fill(this.hover_fill)
-				stroke(this.hover_stroke)
-			} else {
-				fill(this.fill)
-				noStroke()
-			}
-		}
+        is_dragging = true;
+        this.being_dragged = true;
+        this.x = mouse_x;
+        this.y = mouse_y;
+        this.z += translate_z;
+      } else if (this.being_dragged & !mouse_pressed) {
+        is_dragging = false;
+        this.being_dragged = false;
+      } else if (!is_dragging) {
+        fill(this.hover_fill);
+        stroke(this.hover_stroke);
+      } else {
+        fill(this.fill);
+        noStroke();
+      }
+    }
 
-		translate(this.x, this.y, this.z)
-		ellipsoid(this.r, this.r, 0)
-		pop()
+    translate(this.x, this.y, this.z);
+    ellipsoid(this.r, this.r, 0);
+    pop();
 
-		for (let connected_node of this.connected_nodes) {
-			line(this.x, this.y, this.z, connected_node.x, connected_node.y, connected_node.z)
-		}
-	}
+    for (const connected_node of this.connected_nodes) {
+      line(this.x, this.y, this.z, connected_node.x, connected_node.y, connected_node.z);
+    }
+  }
 }
 
 class DragNet {
-	constructor(x, y, nrows, ncols, step) {
-		// 2d array would be better, but idk yet
-		this.nodes = new Map()
-		this.nrows = nrows
-		this.ncols = ncols
+  constructor(x, y, nrows, ncols, step) {
+    // 2d array would be better, but idk yet
+    this.nodes = new Map();
+    this.nrows = nrows;
+    this.ncols = ncols;
 
 
-		for (let row = 0; row < nrows; row++) {
-			for (let col = 0; col < ncols; col++) {
+    for (let row = 0; row < nrows; row++) {
+      for (let col = 0; col < ncols; col++) {
+        const xi = x + step * col;
+        const yi = y + step * row;
+        const node = new DragNode(xi, yi, 10);
 
-				let xi = x + step * col
-				let yi = y + step * row
-				let node = new DragNode(xi, yi, 10)
+        if (row > 0) {
+          const key = (row - 1).toString() + col.toString();
+          const connection = this.nodes.get(key);
+          node.connected_nodes.push(connection);
+        }
 
-				if (row > 0) {
-					let key = (row - 1).toString() + col.toString()
-					let connection = this.nodes.get(key)
-					node.connected_nodes.push(connection)
-				}
+        if (col > 0) {
+          const key = row.toString() + (col - 1).toString();
+          const connection = this.nodes.get(key);
+          node.connected_nodes.push(connection);
+        }
 
-				if (col > 0) {
-					let key = row.toString() + (col - 1).toString()
-					let connection = this.nodes.get(key)
-					node.connected_nodes.push(connection)
-				}
+        const key = row.toString() + col.toString();
+        this.nodes.set(key, node);
+      }
+    }
+  }
 
-				let key = row.toString() + col.toString()
-				this.nodes.set(key, node)
-			}
-		}
-	}
-
-	draw() {
-		for (let row = 0; row < this.nrows; row++) {
-			for (let col = 0; col < this.ncols; col++) {
-				let key = row.toString() + col.toString()
-				let node = this.nodes.get(key)
-				node.draw()
-			}
-		}
-	}
+  draw() {
+    for (let row = 0; row < this.nrows; row++) {
+      for (let col = 0; col < this.ncols; col++) {
+        const key = row.toString() + col.toString();
+        const node = this.nodes.get(key);
+        node.draw();
+      }
+    }
+  }
 }
