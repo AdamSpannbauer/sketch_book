@@ -89,6 +89,10 @@ class Squeegee {
   		const diff = this.hist.length - this.max_hist;
   		this.hist.splice(0, diff);
   	}
+
+  	textSize(8);
+  	fill(170, cos(this.t) * 230);
+  	text('e', width - 4.5, height - 0.75);
   }
 
   figure_eight(n) {
