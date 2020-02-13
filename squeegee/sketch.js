@@ -8,14 +8,14 @@ const g = [51, 255, 0];
 const b = [17, 51, 204];
 const i = [34, 0, 102];
 const v = [51, 0, 68];
-const roygbiv = [r, o, y, g, b, i, v];
+const roygvib = [r, o, y, g, v, i, b];
 
 let squeegee;
 
 function setup() {
   createCanvas(canvas_w, canvas_h);
   angleMode(DEGREES);
-  squeegee = new Squeegee(300, roygbiv, true);
+  squeegee = new Squeegee(300, roygvib, true);
 }
 
 
@@ -27,20 +27,20 @@ function draw() {
 
 
 class Squeegee {
-  constructor(l, cs, fe) {
+  constructor(l, cs) {
   	this.x = width / 2;
   	this.y = height / 2;
   	this.angle = 0;
 
   	this.hist = [];
-  	this.max_hist = 40;
+  	this.max_hist = 100;
 
   	this.delta_x = 0.0;
   	this.delta_y = 0.0;
   	this.delta_angle = 0.0;
 
     this.l = l || 70;
-    this.cs = cs || roygbiv;
+    this.cs = cs || roygvib;
 
     this.seg_l = this.l / cs.length;
     this.seg_h = 70;
@@ -49,12 +49,7 @@ class Squeegee {
     this.time_since_change = this.change_every;
     this.t = 0;
 
-    this.fe = fe || true;
-    if (this.fe) {
-    	this.hist.push(this.figure_eight());
-    } else {
-    	this.hist.push(createVector(this.x, this.y, this.angle));
-    }
+    this.figure_eight();
   }
 
   draw() {
@@ -88,63 +83,27 @@ class Squeegee {
 	  	pop();
   	}
 
-  	let new_loc;
-  	if (this.fe) {
-  		new_loc = this.figure_eight();
-  	} else {
-  		new_loc = this.rand_move();
-  	}
+  	this.figure_eight(4);
 
-  	this.hist.push(new_loc);
   	if (this.hist.length > this.max_hist) {
-  		this.hist.splice(0, 1);
+  		const diff = this.hist.length - this.max_hist;
+  		this.hist.splice(0, diff);
   	}
   }
 
-  rand_move() {
-  	if (this.time_since_change >= this.change_every) {
-  		const change = random(-1, 1);
-  		const rand = random();
+  figure_eight(n) {
+  	n = n || 1;
+  	for (let i = 0; i < n; i++) {
+	  	this.x = (cos(this.t) * width / 2) / 2 + width / 2;
+	  	this.y = (cos(this.t) * sin(this.t) * height) / 2 + height / 2;
+	  	this.angle = cos(this.t) * 360;
 
-  		if (rand <= 1 / 3) {
-  			this.delta_x = change;
-  		} else if (rand <= 2 / 3) {
-  			this.delta_y = change;
-  		} else {
-  			this.delta_angle = change;
-  		}
+	  	this.t += 0.75 / n;
 
-  		this.time_since_change = 0;
+	  	if (this.t >= 360) {
+	  		this.t -= 360;
+	  	}
+	  	this.hist.push(createVector(this.x, this.y, this.angle));
   	}
-
-  	this.x += this.delta_x;
-  	this.y += this.delta_y;
-  	this.angle += this.delta_angle;
-
-  	if (this.x >= width | this.x <= 0) {
-  		this.delta_x *= -1;
-  	}
-
-  	if (this.y >= height | this.y <= 0) {
-  		this.delta_y *= -1;
-  	}
-
-  	this.time_since_change++;
-
-  	return (createVector(this.x, this.y, this.angle));
-  }
-
-  figure_eight() {
-  	this.x = (cos(this.t) * width / 2) / 2 + width / 2;
-  	this.y = (cos(this.t) * sin(this.t) * height) / 2 + height / 2;
-  	this.angle = cos(this.t) * 360;
-
-  	this.t += 0.75;
-
-  	if (this.t >= 360) {
-  		this.t -= 360;
-  	}
-
-  	return (createVector(this.x, this.y, this.angle));
   }
 }
