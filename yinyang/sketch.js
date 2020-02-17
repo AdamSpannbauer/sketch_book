@@ -4,11 +4,11 @@ const h = 480;
 const cx = w / 2;
 const cy = h / 2;
 
-const radius = h / 2;
+const radius = h / 2.5;
 const d = radius * 2;
 
 let angle = 0;
-const delta_angle = 0.1;
+const delta_angle = 0.2;
 
 function setup() {
   createCanvas(w, h);
@@ -17,8 +17,7 @@ function setup() {
 
 
 function draw() {
-  clear();
-  background(200);
+  background(170, 30, 50);
   noStroke();
 
   translate(cx, cy);
