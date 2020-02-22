@@ -1,3 +1,3 @@
 # Sketch Book
 
-Figured it was time to have a central place for these rather than creating 100s of new repos.
+A place to hold random P5.js sketches.  The code is not optimized for readability, speed, or anything good.  These are just mini projects for fun rather than a big portfolio build.
