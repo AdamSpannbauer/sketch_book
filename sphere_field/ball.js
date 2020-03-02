@@ -5,11 +5,13 @@ class Ball {
   	this.max_r = this.max_r || 30;
   	this.r = map(this.p.z, -1, 1, this.min_r, this.max_r);
 
+    this.speed = 5;
+
     this.fill = [
       random(70, 130),
       random(70, 130),
-      random(150, 250)
-    ]
+      random(150, 250),
+    ];
   }
 
   rand_pos() {
@@ -39,12 +41,11 @@ class Ball {
   }
 
   update() {
-  	const speed = 5;
-  	const dx = -map(-this.p.x, -width / 2, width / 2, -speed, speed);
-  	const dy = -map(-this.p.y, -height / 2, height / 2, -speed, speed);
+  	const dx = -map(-this.p.x, -width / 2, width / 2, -this.speed, this.speed);
+  	const dy = -map(-this.p.y, -height / 2, height / 2, -this.speed, this.speed);
   	const dz = 0.01;
 
-  	const d = createVector(dx, dy, dz)
+  	const d = createVector(dx, dy, dz);
 
   	this.p.add(d);
   	this.r = map(this.p.z, -1, 1, this.min_r, this.max_r);
