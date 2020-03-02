@@ -5,7 +5,7 @@ const sandpiles = [];
 const max_pile = 3;
 
 const pre_steps = 1;
-const step_size = 512;
+const step_size = 10;
 
 let min_x = canvas_w / 2;
 let min_y = canvas_h / 2;
@@ -16,15 +16,20 @@ function setup() {
   createCanvas(canvas_w, canvas_h);
   pixelDensity(1);
 
+  const border = 100;
   for (let x = 0; x < width; x++) {
   	sandpiles[x] = [];
     for (let y = 0; y < height; y++) {
       sandpiles[x][y] = 0;
 
-      if (x > 150 & y > 150
-      	& x < 350 & y < 350
-      	& x % 2 == 0 & y % 2 == 0) {
+      if (x > border & y > border
+      	& x < width - border & y < height -border
+      	& x % 2 == 0 & y % 4 == 0) {
       	sandpiles[x][y] = 32;
+      }
+
+      if (x == width / 2 & y == height / 2) {
+        sandpiles[x][y] += 32;
       }
     }
   }
