@@ -1,5 +1,5 @@
-const w = 640;
-const h = 480;
+const w = 550;
+const h = 550;
 
 const yellow = [230, 192, 95];
 const light_blue = [81, 134, 129];
