@@ -1,11 +1,7 @@
 const w = 640;
 const h = 480;
 
-const cx = w / 2;
-const cy = h / 2;
-
 let mouse_pressed = false;
-const key_typed = false;
 let is_dragging = false;
 let translate_z = 0;
 
@@ -34,7 +30,7 @@ function setup() {
 
 
 function draw() {
-  clear();
+  background(240);
 
   rotateX(angleX);
   rotateY(angleY);
@@ -154,8 +150,8 @@ class DragNet {
 
     for (let row = 0; row < nrows; row++) {
       for (let col = 0; col < ncols; col++) {
-        const xi = x + step * col;
-        const yi = y + step * row;
+        const xi = x + step * col - 100;
+        const yi = y + step * row - 100;
         const node = new DragNode(xi, yi, 10);
 
         if (row > 0) {
