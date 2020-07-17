@@ -3,8 +3,8 @@ const CANVAS_H = 512;
 let FPS_P;
 
 const FLOW_FIELD = [];
-const SCL = 0.001;
-// const SCL = 0.05;
+let SCL;
+
 const SPEED = 2;
 
 const particles = [];
@@ -16,6 +16,8 @@ function setup() {
   createCanvas(CANVAS_W, CANVAS_H);
   FPS_P = createP();
   background(70);
+
+  SCL = random([0.05, 0.001]);
 
   for (let y = 0; y < height; y++) {
     FLOW_FIELD.push([]);

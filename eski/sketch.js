@@ -8,10 +8,11 @@ const blue = [59, 98, 151];
 let font;
 
 const off = 8;
-const y = -10;
+const y = -130;
 
 // const display_text = 'eski';
-const display_text = 'skinny\ncircuits'
+// const display_text = 'skinny\ncircuits'
+const display_text = 'froggo &\nda crew'
 const speed = 0.3;
 
 function preload() {
@@ -36,7 +37,7 @@ function draw() {
   background(20);
 
   textFont(font);
-  textSize(100);
+  textSize(80);
   textAlign(CENTER);
 
   translate(width / 2, height / 2);

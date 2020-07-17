@@ -12,6 +12,8 @@ let x_seed;
 let y_seed;
 let a_seed;
 
+let line_color;
+
 const line_w = 100;
 
 function setup() {
@@ -21,6 +23,14 @@ function setup() {
   x_seed = random(100);
   y_seed = random(100);
   a_seed = random(100);
+
+  line_color = random([
+    [0, 0, 255],
+    [0, 100, 0],
+    [255, 0, 0]
+  ]);
+
+  line_color = color(line_color);
 }
 
 
@@ -41,30 +51,13 @@ function draw() {
 
   strokeWeight(2);
   const alpha = random(5, 20);
+  line_color.setAlpha(alpha)
 
   push()
   translate(x, y);
   rotate(a);
   
-  stroke(0, alpha);
+  stroke(line_color);
   line(-line_w / 2, line_w / 2, 0, 0);
   pop()
-
-
-  push()
-  translate(x - 5, y);
-  rotate(a);
-  
-  stroke(255, 0, 0, alpha);
-  line(-line_w / 2, line_w / 2, 0, 0);
-  pop()
-
-
-  push()
-  translate(x + 5, y);
-  rotate(a);
-  
-  stroke(0, 0, 255, alpha);
-  line(-line_w / 2, line_w / 2, 0, 0);
-  pop() 
 }
