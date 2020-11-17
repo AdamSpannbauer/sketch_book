@@ -1,12 +1,15 @@
-const canvas_w = 512;
-const canvas_h = 512;
+const canvasW = 512;
+const canvasH = 512;
 
 
 function setup() {
-  createCanvas(canvas_w, canvas_h);
+  createCanvas(canvasW, canvasH);
 }
 
 
 function draw() {
   background(200);
 }
+
+window.setup = setup;
+window.draw = draw;
